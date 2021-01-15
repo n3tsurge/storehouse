@@ -1,0 +1,14 @@
+[main]
+secret_key = ""
+list_path = "lists.json"
+
+[proxy]
+enabled = false
+server = ""
+proxy_user = ""
+proxy_password = ""
+
+[memcached]
+hostname = "127.0.0.1"
+port = 11211
+enabled = true
