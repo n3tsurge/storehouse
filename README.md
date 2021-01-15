@@ -5,7 +5,6 @@ Storehouse is a centralized threat intelligence list and indicator management to
 # Get Started
 
 ```
-git clone storehouse
-./storehouse.py setup
-./storehouse.py run
+pipenv install
+pipenv run python storehouse.py
 ```
