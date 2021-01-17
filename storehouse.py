@@ -153,10 +153,10 @@ if __name__ == "__main__":
             if value:
                 return value.decode()
             else:
-                return "Not found"
+                return json.dumps({"value":"Not found"})
         else:
-            return "Invalid IP Address"
-        return "Not found"
+            return json.dumps({"value":"Invalid IP Address"})
+        return json.dumps({"value":"Not found"})
 
     app.run()
 
