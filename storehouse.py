@@ -4,9 +4,11 @@ import json
 import logging
 import requests_cache
 import requests
+import ipaddress
 from pymemcache.client.base import Client
 from optparse import OptionParser as op
 from netaddr import IPSet, IPNetwork, IPAddress
+from flask import Flask
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 
@@ -50,6 +52,9 @@ class ThreatList(object):
                 if self.format == "cidr":
                     for c in re.findall(r"((?:\d{1,3}\.){3}\d{1,3}(?:/\d\d?))", result.text):
                         self.to_memcached(c, self.format, config)
+                else:
+                    for c in result.text.split('\n'):
+                        self.to_memcached(c, self.format, config)
                     
         except Exception as e:
             print(e)
@@ -61,10 +66,14 @@ class ThreatList(object):
         '''
 
         if format == 'cidr':
-            key = 'cidr_{}'.format(value)
+            key = 'cidr_{}'
+        if format == 'ip':
+            key = 'ip_{}'
+
+        key = key.format(value)
 
         client = Client('127.0.0.1:11211')
-        client.set(key, value)
+        client.set(key, json.dumps({"value": value, "list_name": self.name, "list_url": self.url}))
         return
 
 
@@ -91,7 +100,7 @@ def load_lists(path='lists.json'):
     Loads a config from a file on disk
     :param path: the file path to load from
     '''
-    
+
     logging.info('Loading lists from "{}".'.format(path))
     lists = None
     try:
@@ -112,7 +121,44 @@ if __name__ == "__main__":
 
     config =  load_config()
 
-    lists = load_lists(path=config['main']['list_path'])
+    # Create the memcached client
+    client = Client('{}:{}'.format(config['memcached']['hostname'], str(config['memcached']['port'])))
 
+    # Load all the list data
+    lists = load_lists(path=config['main']['list_path'])
     for l in lists:
         l.fetch(config)
+    logging.info('Finished loading threat feeds')
+
+    # TODO: Spawn a feeder as a sub process that constantly refreshes the lists at a set interval
+
+    # TODO: Launch flask for querying memcached
+
+    logging.info('Launching web server')
+
+    app = Flask(__name__)   
+
+    @app.route('/')
+    def index():
+        return 'Hello'
+
+    @app.route('/ip/<ip>')
+    def ip_check(ip):
+        '''
+        Checks if an IP address is in any of the IP indicators
+        '''
+        if ipaddress.ip_address(ip):
+            key = "ip_{}".format(ip)
+            value = client.get(key)
+            if value:
+                return value.decode()
+            else:
+                return "Not found"
+        else:
+            return "Invalid IP Address"
+        return "Not found"
+
+    app.run()
+
+    
+

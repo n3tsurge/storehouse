@@ -9,6 +9,7 @@ requests-cache = "*"
 netaddr = "*"
 requests = "*"
 pymemcache = "*"
+flask = "*"
 
 [dev-packages]
 
