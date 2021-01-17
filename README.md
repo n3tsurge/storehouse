@@ -16,6 +16,35 @@ Storehouse is a centralized threat intelligence list and indicator management to
 
 ![storehouse.gif](storehouse.gif)
 
+# Basic Usage
+
+## Query lists via API
+
+```
+curl http://localhost:5000/ip/4.4.4.4
+```
+
+## Query lists via Logstash/Memcached
+To query against the lists directly from memcached using Elastics Logstash, put the following block in your `filter` block of your Logstash config.
+
+> **Note**: You have to change the namespace and source field depending on the check.  CIDR lookups will not work with this check
+
+```
+memcached {
+    hosts => ['localhost']
+    namespace => "ip"
+    get => {
+        "%{source_ip}" => "[threat_info]"
+    }
+}
+```
+
+### Supported Namespaces
+
+- ip
+- domain
+- url
+
 # Setup
 
 ## Install
