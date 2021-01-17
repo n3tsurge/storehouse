@@ -33,13 +33,15 @@ class ThreatList(object):
         to memcached
         '''
 
-        logging.info('Fetching list information for "{}" from {}.'.format(self.name, self.url))
+        
 
         session = requests.Session()
 
         if hasattr(self, 'disabled') and self.disabled:
             logging.info('Skipping list "{}" as it is disabled in the list config.'.format(self.name))
             return
+        else:
+            logging.info('Fetching list information for "{}" from {}.'.format(self.name, self.url))
         
         if config['proxy']['enabled']:
             session.proxies = {"http": config['proxy']['server'], "https": config['proxy']['server']}

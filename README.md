@@ -13,7 +13,26 @@ pipenv run python storehouse.py
 
 ![storehouse.gif](storehouse.gif)
 
-# Defining Lists
+
+# Setup
+
+## Install
+
+```
+git clone https://github.com/n3tsurge/storehouse.git
+cd storehouse
+pipenv install
+pipenv run python storehouse.py
+```
+
+## Editing Lists
+
+1. Open lists.json
+2. Add/Modify lists in the file
+3. Save the file
+4. Restart storehouse
+
+### Defining Lists
 
 ```
 [
