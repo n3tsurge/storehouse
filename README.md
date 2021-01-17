@@ -11,7 +11,7 @@ pipenv run python storehouse.py
 
 # Screenshot
 
-![screenshot.png](screenshot.png)
+![storehouse.gif](storehouse.gif)
 
 # Defining Lists
 
