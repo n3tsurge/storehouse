@@ -8,10 +8,10 @@ Storehouse is a centralized threat intelligence list and indicator management to
 
 - [x] Support for externally hosted lists
 - [ ] Support for lists behind API keys
-- [ ] Support for custom lists
 - [ ] Support for additional list types (e.g. hashes, filenames, custom)
 - [ ] Support for memcached over TLS
 - [ ] Support for lists behind self-signed or custom certificates
+- [ ] Support for non HTTP based lists (e.g. an Elasticsearch index, or database table)
 - [ ] UI for managing lists
 
 # Screenshot
