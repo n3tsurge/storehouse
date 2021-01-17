@@ -30,6 +30,16 @@ class ThreatList(object):
         self.last_fetched = None
         self.__dict__.update(data)
 
+        # Set a default TTL if it was not in the list config
+        # Default: 60 minutes
+        if not hasattr(self,'ttl'):
+            self.ttl = 60
+
+        # Set a default refresh interval if it was no in the list config
+        # Default: 60 minutes
+        if not hasattr(self, 'refresh_interval'):
+            self.refresh_interval = 60
+
     def fetch(self, config):
         '''
         Fetches a list from the destination URL and pushes the files
@@ -76,7 +86,7 @@ class ThreatList(object):
         key = key.format(value)
 
         client = Client('127.0.0.1:11211')
-        client.set(key, json.dumps({"value": value, "list_name": self.name, "list_url": self.url}))
+        client.set(key, json.dumps({"value": value, "list_name": self.name, "list_url": self.url}), expire=self.ttl)
         return
 
 

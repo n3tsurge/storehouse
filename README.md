@@ -10,6 +10,8 @@ Storehouse is a centralized threat intelligence list and indicator management to
 - [ ] Support for lists behind API keys
 - [ ] Support for custom lists
 - [ ] Support for additional list types (e.g. hashes, filenames, custom)
+- [ ] Support for memcached over TLS
+- [ ] Support for lists behind self-signed or custom certificates
 - [ ] UI for managing lists
 
 # Screenshot
@@ -72,6 +74,7 @@ pipenv run python storehouse.py
         "url": "https://www.spamhaus.org/drop/drop.txt",
         "format": "cidr",
         "refresh_interval": 60,
+        "ttl": 60,
         "disabled": true,
         "type": "list"
     },
@@ -80,12 +83,15 @@ pipenv run python storehouse.py
         "url": "https://www.spamhaus.org/drop/edrop.txt",
         "format": "cidr",
         "refresh_interval": 60,
+        "ttl": 60,
         "disabled": true,
         "type": "list"
     },
     {
         "name": "Emerging Threats",
         "url": "http://rules.emergingthreats.net/blockrules/compromised-ips.txt",
+        "refresh_interval": 60,
+        "ttl": 60,
         "format": "ip",
         "disabled": false,
         "type": "list"
