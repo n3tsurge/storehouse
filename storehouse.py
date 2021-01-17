@@ -69,9 +69,9 @@ class ThreatList(object):
         '''
 
         if format == 'cidr':
-            key = 'cidr_{}'
+            key = 'cidr:{}'
         if format == 'ip':
-            key = 'ip_{}'
+            key = 'ip:{}'
 
         key = key.format(value)
 
