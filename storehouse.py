@@ -73,7 +73,7 @@ class ThreatList(object):
         key = key.format(value)
 
         client = Client('127.0.0.1:11211')
-        client.set(key, value)
+        client.set(key, json.dumps({"value": value, "list_name": self.name, "list_url": self.url}))
         return
 
 
@@ -121,23 +121,22 @@ if __name__ == "__main__":
 
     config =  load_config()
 
-    lists = load_lists(path=config['main']['list_path'])
-
+    # Create the memcached client
     client = Client('{}:{}'.format(config['memcached']['hostname'], str(config['memcached']['port'])))
 
+    # Load all the list data
+    lists = load_lists(path=config['main']['list_path'])
     for l in lists:
         l.fetch(config)
-
     logging.info('Finished loading threat feeds')
 
-    # TODO: Spawn a feeder as a sub process
+    # TODO: Spawn a feeder as a sub process that constantly refreshes the lists at a set interval
 
     # TODO: Launch flask for querying memcached
 
     logging.info('Launching web server')
 
-    app = Flask(__name__)
-    app.config['DEBUG'] = True
+    app = Flask(__name__)   
 
     @app.route('/')
     def index():
@@ -157,7 +156,9 @@ if __name__ == "__main__":
                 return "Not found"
         else:
             return "Invalid IP Address"
-        return "WTTF"
+        return "Not found"
 
     app.run()
+
+    
 
