@@ -12,3 +12,33 @@ pipenv run python storehouse.py
 # Screenshot
 
 ![screenshot.png](screenshot.png)
+
+# Defining Lists
+
+```
+[
+    {
+        "name": "SpamHaus Drop",
+        "url": "https://www.spamhaus.org/drop/drop.txt",
+        "format": "cidr",
+        "refresh_interval": 60,
+        "disabled": true,
+        "type": "list"
+    },
+    {
+        "name": "SpamHaus eDrop",
+        "url": "https://www.spamhaus.org/drop/edrop.txt",
+        "format": "cidr",
+        "refresh_interval": 60,
+        "disabled": true,
+        "type": "list"
+    },
+    {
+        "name": "Emerging Threats",
+        "url": "http://rules.emergingthreats.net/blockrules/compromised-ips.txt",
+        "format": "ip",
+        "disabled": false,
+        "type": "list"
+    }
+]
+```
