@@ -2,6 +2,8 @@
 
 Storehouse is a centralized threat intelligence list and indicator management tool for importing indicators of compromise into memcached for enrichment in Logstash, as well as APIs for external system interaction
 
+> :warning: **This is a work in progress** :warning:
+
 # Get Started
 
 ```
@@ -9,10 +11,19 @@ pipenv install
 pipenv run python storehouse.py
 ```
 
+
+
+# Roadmap
+
+- [x] Support for externally hosted lists
+- [ ] Support for lists behind API keys
+- [ ] Support for custom lists
+- [ ] Support for additional list types (e.g. hashes, filenames, custom)
+- [ ] UI for managing lists
+
 # Screenshot
 
 ![storehouse.gif](storehouse.gif)
-
 
 # Setup
 

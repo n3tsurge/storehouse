@@ -1,3 +1,5 @@
+# storehouse.py
+
 import re
 import toml
 import json
@@ -10,8 +12,8 @@ from optparse import OptionParser as op
 from netaddr import IPSet, IPNetwork, IPAddress
 from flask import Flask
 
+# Configure a logging format for the feeds that matches the Flask logging format
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
-
 
 class ThreatList(object):
     '''
@@ -24,6 +26,7 @@ class ThreatList(object):
         Initializes the Feed object
         :param data: A dict that builds the object
         '''
+
         self.last_fetched = None
         self.__dict__.update(data)
 
@@ -31,9 +34,7 @@ class ThreatList(object):
         '''
         Fetches a list from the destination URL and pushes the files
         to memcached
-        '''
-
-        
+        '''      
 
         session = requests.Session()
 
